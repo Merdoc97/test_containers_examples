@@ -21,6 +21,7 @@ public class TestConfiguration {
 
     @ClassRule
     public static GenericContainer container = ElasticSearchEmbeddedConfiguration.elasticEmbedded(9201);
+    
 
 
 }
