@@ -17,7 +17,7 @@ import org.testcontainers.containers.GenericContainer;
 @SpringBootTest
 @ContextConfiguration(classes = {TestDataSourceConfig.class, JpaConfig.class, BeanConfiguration.class})
 public class TestConfiguration {
-    
+
 
     @ClassRule
     public static GenericContainer container = ElasticSearchEmbeddedConfiguration.elasticEmbedded(9201);
