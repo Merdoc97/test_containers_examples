@@ -1,0 +1,30 @@
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.cmd
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.mvn
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+/hibernate-search/service/LOG_PATH_IS_UNDEFINED/
+/hibernate-search/service/LOG_FILE_IS_UNDEFINED
+/.mvn/
