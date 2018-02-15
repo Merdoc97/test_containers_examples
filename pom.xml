@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.10.RELEASE</version>
+        <version>1.5.9.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -30,7 +30,7 @@
         <java.version>1.8</java.version>
         <serfire-plugin-version>2.18.1</serfire-plugin-version>
         <lombok-version>1.16.20</lombok-version>
-        <testcontainers.version>1.6.0</testcontainers.version>
+        <testcontainers.version>1.5.1</testcontainers.version>
         <open-table-version>0.7.1</open-table-version>
         <hibernate-search.version>5.8.2.Final</hibernate-search.version>
         <hibernate-core.version>5.2.7.Final</hibernate-core.version>
@@ -127,7 +127,6 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
