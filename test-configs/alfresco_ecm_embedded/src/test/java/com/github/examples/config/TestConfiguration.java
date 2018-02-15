@@ -26,11 +26,4 @@ public class TestConfiguration {
     @ClassRule
     public static GenericContainer alfrescoEmbedded = AlfrescoEcmEmveddedConfiguration.alfrescoEmbedded(8085);
 
-    @ClassRule
-    public static GenericContainer dms = AlfrescoEcmEmveddedConfiguration.dms(8081);
-
-    @ClassRule
-    public static GenericContainer zuul = AlfrescoEcmEmveddedConfiguration.zuul(8900);
-
-
 }

@@ -17,7 +17,7 @@ public class AlfrescoTest extends TestConfiguration {
     private ApplicationContext context;
     @Test
     public void testAlfrescoEcm() throws InterruptedException {
-        log.info("---------TEST ACCEPTED ALL CONTAINERS START CORRECTLY---------");
+        log.info("---------TEST FINISH ALL CONTAINERS START CORRECTLY---------");
 
     }
 
