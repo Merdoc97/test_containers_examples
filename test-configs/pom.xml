@@ -11,6 +11,7 @@
     <modules>
         <module>pg_embedded</module>
         <module>elastic-search-embedded</module>
+        <module>alfresco_ecm_embedded</module>
     </modules>
 
 

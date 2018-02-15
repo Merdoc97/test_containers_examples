@@ -2,18 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>elastic_search_embedded_config</artifactId>
+    <artifactId>alfresco_ecm_embedded</artifactId>
     <!--to autoincrement developer version use command
     batch-mode release:update-versions in CI after successful build-->
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <!--<modules>
-    </modules>-->
+
     <parent>
         <groupId>com.github.examples</groupId>
         <artifactId>general-configs</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
 
 </project>
