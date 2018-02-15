@@ -16,6 +16,7 @@ public class ElasticSearchEmbeddedConfiguration {
         try (GenericContainer elasticContainer = new FixedHostPortGenericContainer("docker.elastic.co/elasticsearch/elasticsearch:5.5.2")
                 .withFixedExposedPort(portDefault9200, 9200)
                 .withFixedExposedPort(9300, 9300)
+                .withExposedPorts(9200)
                 .waitingFor(Wait.forHttp("/")) // Wait until elastic start
                 .withEnv("xpack.security.enabled", "false")
                 .withEnv("http.host", "0.0.0.0")
