@@ -1,0 +1,13 @@
+spring:
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: localhost:9092
+      group-id: helloworld
+    producer:
+      bootstrap-servers: localhost:9092
+
+kafka:
+  topic:
+    helloworld: helloworld.t
+
