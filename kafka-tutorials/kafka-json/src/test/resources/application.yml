@@ -1,0 +1,14 @@
+spring:
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: ${spring.embedded.kafka.brokers}
+    producer:
+      bootstrap-servers: ${spring.embedded.kafka.brokers}
+
+kafka:
+  topic:
+    json: json.t
+    people: people.t
+
+
