@@ -1,0 +1,12 @@
+spring:
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: localhost:9092
+    producer:
+      bootstrap-servers: localhost:9092
+
+kafka:
+  topic:
+    json: json.t
+    people: people.t

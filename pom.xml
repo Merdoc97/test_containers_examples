@@ -15,6 +15,7 @@
         <module>hibernate-search</module>
         <module>test-configs</module>
         <module>kafka-example</module>
+        <module>kafka-tutorials</module>
     </modules>
 
     <parent>
