@@ -1,7 +1,6 @@
-package com.codenotfound.kafka;
+package com.github.examples.config;
 
 
-import com.github.examples.config.SpringKafkaJsonApplication;
 import com.github.examples.config.consumer.CarReceiver;
 import com.github.examples.config.consumer.PeopleReceiver;
 import com.github.examples.config.model.Car;

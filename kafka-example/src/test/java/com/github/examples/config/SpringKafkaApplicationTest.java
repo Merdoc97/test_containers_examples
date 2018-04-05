@@ -1,8 +1,6 @@
-package com.codenotfound.kafka;
+package com.github.examples.config;
 
 
-import com.github.examples.config.KafkaTestContainers;
-import com.github.examples.config.SpringKafkaApplication;
 import com.github.examples.config.consumer.Receiver;
 import com.github.examples.config.producer.Sender;
 import org.junit.ClassRule;

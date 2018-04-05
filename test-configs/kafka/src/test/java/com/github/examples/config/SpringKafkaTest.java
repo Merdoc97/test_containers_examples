@@ -1,4 +1,4 @@
-package com.codenotfound.kafka;
+package com.github.examples.config;
 
 
 import com.github.examples.config.KafkaTestContainers;
