@@ -10,5 +10,6 @@ kafka:
   topic:
     json: json.t
     people: people.t
+    rpc: rpc.t
 
 

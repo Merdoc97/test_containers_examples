@@ -41,6 +41,7 @@ public class SenderConfig {
         return factory;
     }
 
+
     @Bean
     public KafkaTemplate<String, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
@@ -48,7 +49,8 @@ public class SenderConfig {
 
     @Bean
     public Sender sender(@Value("${kafka.topic.json}")String carTopic,
-                         @Value("${kafka.topic.people}")String peopleTopic) {
-        return new Sender(kafkaTemplate(),carTopic,peopleTopic);
+                         @Value("${kafka.topic.people}")String peopleTopic,
+                         @Value("${kafka.topic.rpc}")String rpcTopic) {
+        return new Sender(kafkaTemplate(),carTopic,peopleTopic,rpcTopic);
     }
 }

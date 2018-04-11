@@ -51,6 +51,7 @@ public class ReceiverConfig {
         return KafkaListenerBuilder.buildFactory(Car.class,batchMessagingMessageConverter(),consumerConfigs());
     }
 
+
     @Bean
     public KafkaListenerContainerFactory peopleListenerFactory() {
         return KafkaListenerBuilder.buildFactory(People.class,batchMessagingMessageConverter(),consumerConfigs());
