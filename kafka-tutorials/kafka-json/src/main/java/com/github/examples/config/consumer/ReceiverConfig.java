@@ -67,10 +67,11 @@ public class ReceiverConfig {
     public BatchMessagingMessageConverter batchMessagingMessageConverter() {
         return new BatchMessagingMessageConverter(converter());
     }
-
     @Bean
     public CarReceiver receiver() {
         return new CarReceiver();
     }
+
+
 }
 

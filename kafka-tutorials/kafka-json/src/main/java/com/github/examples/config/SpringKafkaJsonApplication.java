@@ -8,5 +8,6 @@ public class SpringKafkaJsonApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(SpringKafkaJsonApplication.class, args);
+
   }
 }

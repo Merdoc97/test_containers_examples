@@ -40,7 +40,7 @@
         <release-plugin-version>2.5.3</release-plugin-version>
         <hikari-pool-version>2.4.5</hikari-pool-version>
         <jackson-data-type-version>2.8.9</jackson-data-type-version>
-        <spring-kafka.version>2.1.3.RELEASE</spring-kafka.version>
+        <spring-kafka.version>2.1.5.RELEASE</spring-kafka.version>
         <assertj-version>3.9.0</assertj-version>
     </properties>
 
@@ -121,6 +121,7 @@
                 <artifactId>spring-kafka-test</artifactId>
                 <version>${spring-kafka.version}</version>
                 <exclusions>
+                    <!--it's boot bag for assertj 3.9.1 version-->
                     <exclusion>
                         <groupId>org.assertj</groupId>
                         <artifactId>assertj-core</artifactId>
@@ -173,7 +174,7 @@
                 <version>${serfire-plugin-version}</version>
                 <configuration>
                     <goal>package</goal>
-                    <skipTests>false</skipTests>
+                    <skipTests>true</skipTests>
                     <includes>
                         <include>**/**Suite.java</include>
                     </includes>

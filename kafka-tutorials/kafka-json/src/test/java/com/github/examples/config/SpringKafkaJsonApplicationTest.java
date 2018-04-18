@@ -6,7 +6,6 @@ import com.github.examples.config.consumer.PeopleReceiver;
 import com.github.examples.config.model.Car;
 import com.github.examples.config.model.People;
 import com.github.examples.config.producer.Sender;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -19,9 +18,7 @@ import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +40,6 @@ public class SpringKafkaJsonApplicationTest {
 
     @Autowired
     private Sender sender;
-
     @ClassRule
     public static KafkaEmbedded kafkaEmbedded = new KafkaEmbedded(1, true, JSON_T,PEOPLE_T);
 
@@ -70,13 +66,5 @@ public class SpringKafkaJsonApplicationTest {
         sender.send(new Car("make", "UA", "unique"));
         carReceiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
         assertThat(carReceiver.getLatch().getCount()).isEqualTo(0);
-    }
-
-    @Test
-    public void testRpcCall() throws ExecutionException, InterruptedException, TimeoutException {
-        String modifiedField="new maker";
-        Car modified=sender.sendAndReceiveCar(new Car("some Maker","by test","id"));
-        Assert.assertEquals(modifiedField,modified.getMake());
-
     }
 }

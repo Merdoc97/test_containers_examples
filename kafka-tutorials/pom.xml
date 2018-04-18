@@ -12,6 +12,7 @@
     </parent>
     <modules>
         <module>kafka-json</module>
+        <module>kafka-rpc</module>
     </modules>
 
 
@@ -24,12 +25,6 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.assertj</groupId>
-                    <artifactId>assertj-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

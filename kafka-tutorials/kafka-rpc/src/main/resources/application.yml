@@ -3,8 +3,10 @@ spring:
     consumer:
       auto-offset-reset: earliest
       bootstrap-servers: localhost:9092
+      group-id: k
     producer:
       bootstrap-servers: localhost:9092
+
 
 kafka:
   topic:
