@@ -3,14 +3,12 @@ spring:
     consumer:
       auto-offset-reset: earliest
       bootstrap-servers: localhost:9092
-      group-id: k
+      group-id: rpc
     producer:
       bootstrap-servers: localhost:9092
 
 
 kafka:
   topic:
-    json: json.t
-    people: people.t
-    rpc: rpc.t
+    rpc: rpc.request
     rpc-response: rpc.response
