@@ -71,7 +71,15 @@ public class KafkaBootKonfig {
         return new NewTopic("rpc.response", 10, (short) 2);
     }
 
+    @Bean
+    public NewTopic rpsRequestSecond() {
+        return new NewTopic("rpc.request2", 10, (short) 2);
+    }
 
+    @Bean
+    public NewTopic rpcResponseSecond() {
+        return new NewTopic("rpc.response2", 10, (short) 2);
+    }
     @Bean // not required if Jackson is on the classpath
     public MessagingMessageConverter simpleMapperConverter() {
         StringJsonMessageConverter messagingMessageConverter = new StringJsonMessageConverter(new ObjectMapper());

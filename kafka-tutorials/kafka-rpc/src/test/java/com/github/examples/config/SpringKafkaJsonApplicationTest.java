@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
+import java.util.concurrent.TimeoutException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,8 +24,15 @@ public class SpringKafkaJsonApplicationTest {
 
     @Test
     public void testRpc() throws Exception {
-        Car response=receiver.sendAndReceiveExample(new Car("make", "UA", UUID.randomUUID()));
+        Car response=receiver.sendAndReceiveExampleSecond(new Car("make", "UA", UUID.randomUUID()));
 
-        assertThat(response.getMake()).isEqualTo(0);
+        assertThat(response.getMake()).isEqualTo("new Maker");
     }
+
+    @Test(expected = TimeoutException.class)
+    public void testRpcTimeOut() throws Exception {
+        receiver.sendAndReceiveExampleSecond(new Car("make", "UA", UUID.randomUUID()),30000L);
+    }
+
+
 }
