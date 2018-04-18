@@ -48,7 +48,14 @@ public class SenderConfig {
 
     @Bean
     public Sender sender(@Value("${kafka.topic.json}")String carTopic,
-                         @Value("${kafka.topic.people}")String peopleTopic) {
-        return new Sender(kafkaTemplate(),carTopic,peopleTopic);
+                         @Value("${kafka.topic.people}")String peopleTopic,
+                         @Value("${kafka.topic.rpc}")String rpcTopic,
+                         KafkaTemplate<String,Object>kafkaTemplate) {
+        return new Sender(kafkaTemplate,carTopic,peopleTopic,rpcTopic);
     }
+
+    @Value("${spring.kafka.consumer.auto-offset-reset}")
+    private String offSetReset;
+
+
 }

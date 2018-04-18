@@ -21,6 +21,7 @@ public class KafkaListenerBuilder {
         factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(consumerConfigs,new StringDeserializer(),new JsonDeserializer(tClass)));
         factory.setBatchListener(true);
         factory.setMessageConverter(converter);
+
         return factory;
     }
 }

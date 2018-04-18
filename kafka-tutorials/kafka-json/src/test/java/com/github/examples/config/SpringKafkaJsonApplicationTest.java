@@ -40,7 +40,6 @@ public class SpringKafkaJsonApplicationTest {
 
     @Autowired
     private Sender sender;
-
     @ClassRule
     public static KafkaEmbedded kafkaEmbedded = new KafkaEmbedded(1, true, JSON_T,PEOPLE_T);
 

@@ -14,16 +14,18 @@ public class Sender {
 
     private final String carTopic;
     private final String peopleTopic;
+    private final String rpcTopic;
 
-    public void send( Car car) {
+
+    //async for different topics
+    public void send(Car car) {
         log.info("sending car='{}' to topic='{}'", car, carTopic);
         kafkaTemplate.send(carTopic, car);
     }
 
-    public void send(People people){
+    public void send(People people) {
         log.info("sending people='{}' to topic='{}'", people, peopleTopic);
-        kafkaTemplate.send(peopleTopic,people);
+        kafkaTemplate.send(peopleTopic, people);
     }
-
 
 }

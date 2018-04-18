@@ -51,6 +51,7 @@ public class ReceiverConfig {
         return KafkaListenerBuilder.buildFactory(Car.class,batchMessagingMessageConverter(),consumerConfigs());
     }
 
+
     @Bean
     public KafkaListenerContainerFactory peopleListenerFactory() {
         return KafkaListenerBuilder.buildFactory(People.class,batchMessagingMessageConverter(),consumerConfigs());
@@ -66,10 +67,11 @@ public class ReceiverConfig {
     public BatchMessagingMessageConverter batchMessagingMessageConverter() {
         return new BatchMessagingMessageConverter(converter());
     }
-
     @Bean
     public CarReceiver receiver() {
         return new CarReceiver();
     }
+
+
 }
 
