@@ -8,6 +8,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.converter.MessageConverter;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.retry.support.RetryTemplate;
 
 import java.util.Map;
 
@@ -28,6 +29,9 @@ public class KafkaListenerBuilder {
         private boolean isBatch;
         private MessageConverter messageConverter;
         private KafkaTemplate replyTemplate;
+        private Integer concurrency;
+        private RetryTemplate retryTemplate;
+        private boolean stateFullRetry;
 
         public Builder(Map<String, Object> consumerConfigs,Class<V>tclass){
             this.containerFactory=new ConcurrentKafkaListenerContainerFactory<String, V>();
@@ -51,11 +55,29 @@ public class KafkaListenerBuilder {
             return this;
         }
 
+        public Builder withConcurrency(Integer concurrency){
+            this.concurrency=concurrency;
+            return this;
+        }
+        public Builder withRetry(RetryTemplate retry){
+            this.retryTemplate=retry;
+            return this;
+        }
+
+        public Builder withStateFullRetry(boolean stateFullRetry){
+            this.stateFullRetry=stateFullRetry;
+            return this;
+        }
+
+
         public  KafkaListenerContainerFactory build(){
             containerFactory.setBatchListener(this.isBatch);
             containerFactory.setReplyTemplate(this.replyTemplate);
             containerFactory.setMessageConverter(this.messageConverter);
-            containerFactory.setConsumerFactory(defaultKafkaConsumerFactory);
+            containerFactory.setConsumerFactory(this.defaultKafkaConsumerFactory);
+            containerFactory.setConcurrency(this.concurrency);
+            containerFactory.setRetryTemplate(this.retryTemplate);
+            containerFactory.setStatefulRetry(this.stateFullRetry);
             return containerFactory;
         }
     }

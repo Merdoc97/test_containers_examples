@@ -1,6 +1,5 @@
 package com.github.examples.config.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.examples.config.model.Car;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -16,10 +15,6 @@ import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.config.ContainerProperties;
 import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
-import org.springframework.kafka.support.SimpleKafkaHeaderMapper;
-import org.springframework.kafka.support.converter.DefaultJackson2JavaTypeMapper;
-import org.springframework.kafka.support.converter.MessagingMessageConverter;
-import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
@@ -30,7 +25,7 @@ import java.util.Map;
 
  */
 @Configuration
-public class KafkaBootKonfig {
+public class KafkaBootConfig {
 
     @Value("${spring.kafka.consumer.bootstrap-servers}")
     private String bootstrapServers;
@@ -41,24 +36,20 @@ public class KafkaBootKonfig {
 
     @Bean(name = "kafkaTemplate")
     @Primary
-    public ReplyingKafkaTemplate<String, Object, Object> replyTemplate(
-            ProducerFactory<String, Object> producerFactory,
-            KafkaMessageListenerContainer<String, Object> replyContainer) {
+    public ReplyingKafkaTemplate<String, Car, Car> replyTemplate(
+            ProducerFactory<String, Car> producerFactory,
+//            it's important to configure response queue if you want to use request reply pattern
+            KafkaMessageListenerContainer<String, Car> replyContainer) {
         ReplyingKafkaTemplate template=new ReplyingKafkaTemplate<>(producerFactory, replyContainer);
-        template.setMessageConverter(simpleMapperConverter());
-
         return template;
     }
 
 
     @Bean
-    public KafkaMessageListenerContainer<String, Object> replyContainer(
-            ConsumerFactory<String, Object> consumerFactory) {
+    public KafkaMessageListenerContainer<String, Car> replyContainer(
+            ConsumerFactory<String, Car> consumerFactory) {
         ContainerProperties containerProperties = new ContainerProperties("rpc.response");
-
-        KafkaMessageListenerContainer kafkaMessageListenerContainer= new KafkaMessageListenerContainer<>(consumerFactory, containerProperties);
-
-        return kafkaMessageListenerContainer;
+        return new KafkaMessageListenerContainer<>(consumerFactory, containerProperties);
     }
 
     @Bean
@@ -72,27 +63,10 @@ public class KafkaBootKonfig {
     }
 
     @Bean
-    public NewTopic rpsRequestSecond() {
-        return new NewTopic("rpc.request2", 10, (short) 2);
+    public KafkaTemplate<String, Car> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
     }
 
-    @Bean
-    public NewTopic rpcResponseSecond() {
-        return new NewTopic("rpc.response2", 10, (short) 2);
-    }
-    @Bean // not required if Jackson is on the classpath
-    public MessagingMessageConverter simpleMapperConverter() {
-        StringJsonMessageConverter messagingMessageConverter = new StringJsonMessageConverter(new ObjectMapper());
-        SimpleKafkaHeaderMapper mapper=new SimpleKafkaHeaderMapper();
-
-        messagingMessageConverter.setHeaderMapper(mapper);
-        DefaultJackson2JavaTypeMapper typeMapper=new DefaultJackson2JavaTypeMapper();
-        typeMapper.addTrustedPackages("*");
-        messagingMessageConverter.setTypeMapper(typeMapper);
-        messagingMessageConverter.setGenerateTimestamp(true);
-        messagingMessageConverter.setGenerateMessageId(true);
-        return messagingMessageConverter;
-    }
     @Bean
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
@@ -126,41 +100,22 @@ public class KafkaBootKonfig {
     @Bean
     public KafkaListenerContainerFactory kafkaListenerContainerFactory(KafkaTemplate kafkaTemplate) {
          return KafkaListenerBuilder.createFactory(Car.class,consumerConfigs())
-                 .withBatch(true)
-                 .withMessageConverter(simpleMapperConverter())
+//if you want use request reply pattern don't use with batch parameter
+                 .withConsumerFactory(consumerFactory())
                  .withReplyTemplate(kafkaTemplate)
                  .build();
     }
 
 
-    @Bean
-    public ConsumerFactory<String,Object>consumerFactory(){
-        DefaultKafkaConsumerFactory factory=new DefaultKafkaConsumerFactory<>(consumerConfigs());
-        factory.setKeyDeserializer(new StringDeserializer());
-        JsonDeserializer deserializer=new JsonDeserializer();
-        deserializer.addTrustedPackages("*");
-        DefaultJackson2JavaTypeMapper typeMapper=new DefaultJackson2JavaTypeMapper();
-        typeMapper.addTrustedPackages("*");
-        deserializer.setTypeMapper(typeMapper);
-        deserializer.addTrustedPackages("*");
-        factory.setValueDeserializer(deserializer);
 
-        return factory;
+    @Bean
+    public ConsumerFactory<String, Car> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(),new StringDeserializer(),new JsonDeserializer<>(Car.class));
     }
 
-    @Bean
-    public ProducerFactory<String, Object> producerFactory() {
-        DefaultKafkaProducerFactory factory=new DefaultKafkaProducerFactory<>(producerConfigs());
-        factory.setKeySerializer(new StringSerializer());
-        JsonSerializer serializer=new JsonSerializer();
-        DefaultJackson2JavaTypeMapper typeMapper=new DefaultJackson2JavaTypeMapper();
-//        it only for tests add yours mapping if needed
-        typeMapper.addTrustedPackages("*");
-        serializer.setTypeMapper(typeMapper);
-        serializer.setAddTypeInfo(true);
-        factory.setValueSerializer(serializer);
-        factory.setKeySerializer(new StringSerializer());
 
-        return factory;
+    @Bean
+    public ProducerFactory<String,Car> producerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 }
