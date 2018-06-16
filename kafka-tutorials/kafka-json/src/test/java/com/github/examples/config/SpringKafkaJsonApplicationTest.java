@@ -2,9 +2,7 @@ package com.github.examples.config;
 
 
 import com.github.examples.config.consumer.CarReceiver;
-import com.github.examples.config.consumer.PeopleReceiver;
 import com.github.examples.config.model.Car;
-import com.github.examples.config.model.People;
 import com.github.examples.config.producer.Sender;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -18,9 +16,7 @@ import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.concurrent.TimeUnit;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpringKafkaJsonApplication.class)
@@ -35,8 +31,6 @@ public class SpringKafkaJsonApplicationTest {
     @Autowired
     private CarReceiver carReceiver;
 
-    @Autowired
-    private PeopleReceiver peopleReceiver;
 
     @Autowired
     private Sender sender;
@@ -54,17 +48,10 @@ public class SpringKafkaJsonApplicationTest {
     }
 
 
-    @Test
-    public void testReceivePeople() throws Exception {
-        sender.send(new People("test","testovich"));
-        peopleReceiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
-        assertThat(peopleReceiver.getLatch().getCount()).isEqualTo(0);
-    }
 
     @Test
     public void testReceiveCar() throws Exception {
-        sender.send(new Car("make", "UA", "unique"));
-        carReceiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
-        assertThat(carReceiver.getLatch().getCount()).isEqualTo(0);
+        sender.send(Arrays.asList(new Car("make", "UA", "unique")));
+
     }
 }

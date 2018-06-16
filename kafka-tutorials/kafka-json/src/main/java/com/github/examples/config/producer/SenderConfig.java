@@ -1,5 +1,6 @@
 package com.github.examples.config.producer;
 
+import com.github.examples.config.model.Car;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,51 +12,35 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+
 
 @Configuration
 public class SenderConfig {
 
-    @Value("${spring.kafka.consumer.bootstrap-servers}")
-    private String bootstrapServers;
+  @Value("${spring.kafka.consumer.bootstrap-servers}")
+  private String bootstrapServers;
 
-    @Bean
-    public Map<String, Object> producerConfigs() {
-        Map<String, Object> props = new HashMap<>();
-        // list of host:port pairs used for establishing the initial connections
-        // to the Kakfa cluster
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        // value to block, after which it will throw a TimeoutException
-        props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, 5000);
+  @Bean
+  public Map<String, Object> producerConfigs() {
+    Map<String, Object> props = new HashMap<>();
+    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+    props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-        return props;
-    }
+    return props;
+  }
 
-    @Bean
-    public ProducerFactory<String, Object> producerFactory() {
-        DefaultKafkaProducerFactory factory=new DefaultKafkaProducerFactory<>(producerConfigs());
-        factory.setValueSerializer(new JsonSerializer());
+  @Bean
+  public ProducerFactory<String, List<Car>> producerFactory() {
+    return new DefaultKafkaProducerFactory<>(producerConfigs());
+  }
 
-        return factory;
-    }
-
-    @Bean
-    public KafkaTemplate<String, Object> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
-    }
-
-    @Bean
-    public Sender sender(@Value("${kafka.topic.json}")String carTopic,
-                         @Value("${kafka.topic.people}")String peopleTopic,
-                         @Value("${kafka.topic.rpc}")String rpcTopic,
-                         KafkaTemplate<String,Object>kafkaTemplate) {
-        return new Sender(kafkaTemplate,carTopic,peopleTopic,rpcTopic);
-    }
-
-    @Value("${spring.kafka.consumer.auto-offset-reset}")
-    private String offSetReset;
-
+  @Bean
+  public KafkaTemplate<String, List<Car>> kafkaTemplate() {
+    return new KafkaTemplate<>(producerFactory());
+  }
 
 }

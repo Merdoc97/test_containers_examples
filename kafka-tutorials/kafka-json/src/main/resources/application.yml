@@ -1,14 +1,18 @@
 spring:
   kafka:
     consumer:
-      auto-offset-reset: earliest
+#      auto-offset-reset: none
       bootstrap-servers: localhost:9092
+      group-id: group3
+#      enable-auto-commit: true
     producer:
       bootstrap-servers: localhost:9092
 
 kafka:
   topic:
-    json: json.t
+    json: jsontopic
     people: people.t
     rpc: rpc.t
     rpc-response: rpc.response
+server:
+  port: 8082

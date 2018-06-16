@@ -1,31 +1,31 @@
 package com.github.examples.config.producer;
 
 import com.github.examples.config.model.Car;
-import com.github.examples.config.model.People;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
-@AllArgsConstructor
+@Service
 public class Sender {
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    @Autowired
+    private KafkaTemplate<String, List<Car>> kafkaTemplate;
 
-    private final String carTopic;
-    private final String peopleTopic;
-    private final String rpcTopic;
+    @Value("${kafka.topic.json}")
+    private String carTopic;
+    @Value("${kafka.topic.rpc}")
+    private String peopleTopic;
 
 
     //async for different topics
-    public void send(Car car) {
+    public void send(List<Car> car) {
         log.info("sending car='{}' to topic='{}'", car, carTopic);
         kafkaTemplate.send(carTopic, car);
-    }
-
-    public void send(People people) {
-        log.info("sending people='{}' to topic='{}'", people, peopleTopic);
-        kafkaTemplate.send(peopleTopic, people);
     }
 
 }
