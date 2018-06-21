@@ -1,12 +1,20 @@
 spring:
   kafka:
     consumer:
-#      auto-offset-reset: none
+      auto-offset-reset: latest
       bootstrap-servers: localhost:9092
-      group-id: group3
-#      enable-auto-commit: true
+      group-id: group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      max-poll-records: 1
+      enable-auto-commit: true
+
     producer:
       bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
 
 kafka:
   topic:

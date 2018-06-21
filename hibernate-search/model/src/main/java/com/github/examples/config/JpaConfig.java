@@ -149,6 +149,7 @@ public class JpaConfig {
     @Bean(name = "transactionManager")
     public JpaTransactionManager transactionManager() {
         JpaTransactionManager txManager = new JpaTransactionManager();
+
         txManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return txManager;
     }
